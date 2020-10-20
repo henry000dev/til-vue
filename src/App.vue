@@ -1,12 +1,14 @@
 <template>
   <div id="app">
     <SideBar v-bind:todaysDate="getTodaysDate" v-bind:todayHasLesson="todayHasLesson" v-on:add-lesson-clicked="onAddLessonClicked"></SideBar>
+    <MessageDialog v-bind:title="title" v-bind:message="message"></MessageDialog>
     <MainContent v-bind:lessons="storedLessons"></MainContent>
   </div>
 </template>
 
 <script>
 import SideBar from './components/sidebar/SideBar';
+import MessageDialog from './components/modal-dialog/MessageDialog';
 import MainContent from './components/main-content/MainContent';
 import {getDateString} from './utils/utils';
 import DEFAULT_DATA from './data/default.json';
@@ -32,6 +34,7 @@ export default {
   name: 'App',
   components: {
     SideBar,
+    MessageDialog,
     MainContent
   },
 
@@ -39,7 +42,9 @@ export default {
   data: function() {
     return {
       todayHasLesson: false,
-      storedLessons: []
+      storedLessons: [],
+      title: "HELLO",
+      message: "This is a good day."
     };
   },
 
