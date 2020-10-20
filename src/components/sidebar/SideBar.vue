@@ -20,9 +20,9 @@ export default {
       todayHasLesson: Boolean
     },
     methods: {
-    onAddLessonClicked: function() {
-      this.$emit("add-lesson-clicked");
-    }
+      onAddLessonClicked: function() {
+        this.$emit("add-lesson-clicked");
+      },
   },
 }
 </script>

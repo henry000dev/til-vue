@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <SideBar v-bind:todaysDate="getTodaysDate" v-bind:todayHasLesson="todayHasLesson" v-on:add-lesson-clicked="onAddLessonClicked"></SideBar>
-    <MessageDialog v-bind:title="title" v-bind:message="message"></MessageDialog>
+    <MessageDialog v-if="messageDialog.isShowing" v-bind:title="messageDialog.title" v-bind:message="messageDialog.message" v-on:message-dialog-dismissed="onMessageDialogDismissed"></MessageDialog>
     <MainContent v-bind:lessons="storedLessons"></MainContent>
   </div>
 </template>
@@ -13,6 +13,7 @@ import MainContent from './components/main-content/MainContent';
 import {getDateString} from './utils/utils';
 import DEFAULT_DATA from './data/default.json';
 
+const MAX_LESSON_COUNT = 3;
 const LESSONS_STORAGE_KEY = "til-vue.lessons";
 
 // This method is not associated with any Vue instance props/data/state
@@ -43,14 +44,28 @@ export default {
     return {
       todayHasLesson: false,
       storedLessons: [],
-      title: "HELLO",
-      message: "This is a good day."
+
+      messageDialog: {
+        isShowing: false,
+        title: "",
+        message: ""
+      }
     };
   },
 
   methods: {
     onAddLessonClicked: function() {
       console.log("Add lesson button clicked!");
+      if (this.storedLessons.length >= MAX_LESSON_COUNT) {
+        this.messageDialog.isShowing = true;
+        this.messageDialog.title = "Add Lesson";
+        this.messageDialog.message = "Sorry, cannot add more than " + MAX_LESSON_COUNT + " lessons...\n\nIt's just a demo app after all 😀";
+      }
+    },
+    onMessageDialogDismissed: function() {
+        this.messageDialog.isShowing = false;
+        this.messageDialog.title = "";
+        this.messageDialog.message = "";
     }
   },
 
