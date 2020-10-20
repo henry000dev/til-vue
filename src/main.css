@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap');
+
+body {
+  font-family: 'Josefin Sans', serif;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+}
+
+:root {
+  background-color: var(--background-colour-primary);
+  color: var(--text-colour-dark);
+
+  /* https://www.webdesignrankings.com/resources/lolcolors/ */
+  --background-colour-primary: #08182b;
+  --background-colour-secondary: #f4f4f4;
+  --colour-primary: #ee2560;
+  --colour-secondary: #fdcb9e;
+  --text-colour-light: #f4f4f4;
+  --text-colour-light-dimmer: #c8c8c8;
+  --text-colour-dark: #08182b;
+}

@@ -1,28 +1,88 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <SideBar v-bind:todaysDate="getTodaysDate" v-bind:todayHasLesson="todayHasLesson"></SideBar>
+    <MainContent v-bind:lessons="storedLessons"></MainContent>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import SideBar from './components/sidebar/SideBar';
+import MainContent from './components/main-content/MainContent';
+import {getDateString} from './utils/utils';
+import DEFAULT_DATA from './data/default.json';
+
+const LESSONS_STORAGE_KEY = "til-vue.lessons";
+
+// This method is not associated with any Vue instance props/data/state
+// etc so can be declared outside of the Vue instance.
+function initDefaultLessons() {
+  const now = new Date();
+  const defaultLessons = [];
+
+  DEFAULT_DATA.forEach(function(lesson, index) {
+    const aPreviousDate = (new Date()).setDate(now.getDate() - (index + 1));
+    lesson.date = getDateString(new Date(aPreviousDate));
+    defaultLessons.push(lesson);
+  });
+
+  return defaultLessons;
+}
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    SideBar,
+    MainContent
+  },
+
+  // data returns simple 'state' variables.
+  data: function() {
+    return {
+      todayHasLesson: false,
+      storedLessons: []
+    };
+  },
+
+  // computed returns more complex logic for binding. It is "cached" if 
+  // the underlying data/state has not changed.
+  computed: {
+    getTodaysDate() {
+      return new Date();
+    }
+  },
+
+  mounted() {
+    // Retrieve lessons from the local storage.
+    this.storedLessons = JSON.parse(localStorage.getItem(LESSONS_STORAGE_KEY));
+
+    // If the first time or cache cleared - reload some default lessons. 
+    if (!this.storedLessons)
+      this.storedLessons = initDefaultLessons();
   }
 }
 </script>
 
 <style>
+/* https://stackoverflow.com/a/55045591/1055373 */
+@import './main.css';
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+    /* Defines how children elements are laid out. */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
 }
+
+/* With mobile screen, just use simple column layout. */
+@media screen and (max-width: 600px) {
+    #app {
+        /* Defines how children elements are laid out. */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: stretch;
+    }
+}
+
 </style>
