@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <SideBar v-bind:todaysDate="getTodaysDate" v-bind:todayHasLesson="todayHasLesson" v-on:addLessonClicked="onAddLessonClicked"></SideBar>
+    <SideBar v-bind:todaysDate="getTodaysDate" v-bind:todayHasLesson="todayHasLesson" v-on:add-lesson-clicked="onAddLessonClicked"></SideBar>
     <MainContent v-bind:lessons="storedLessons"></MainContent>
   </div>
 </template>
@@ -45,7 +45,7 @@ export default {
 
   methods: {
     onAddLessonClicked: function() {
-      console.log("Add lesson button clicked.");
+      console.log("Add lesson button clicked!");
     }
   },
 
