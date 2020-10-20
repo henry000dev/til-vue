@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <SideBar v-bind:todaysDate="getTodaysDate" v-bind:todayHasLesson="todayHasLesson"></SideBar>
+    <SideBar v-bind:todaysDate="getTodaysDate" v-bind:todayHasLesson="todayHasLesson" v-on:addLessonClicked="onAddLessonClicked"></SideBar>
     <MainContent v-bind:lessons="storedLessons"></MainContent>
   </div>
 </template>
@@ -41,6 +41,12 @@ export default {
       todayHasLesson: false,
       storedLessons: []
     };
+  },
+
+  methods: {
+    onAddLessonClicked: function() {
+      console.log("Add lesson button clicked.");
+    }
   },
 
   // computed returns more complex logic for binding. It is "cached" if 

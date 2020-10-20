@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar">
     <DateDisplay v-bind:todaysDate="todaysDate"></DateDisplay>
-    <TodaysMessage v-if="!todayHasLesson"></TodaysMessage>
+    <TodaysMessage v-if="!todayHasLesson" v-on:addLessonClicked="onAddLessonClicked"></TodaysMessage>
   </div>
 </template>
 
@@ -19,6 +19,11 @@ export default {
       todaysDate: Date,
       todayHasLesson: Boolean
     },
+    methods: {
+    onAddLessonClicked: function() {
+      this.$emit("addLessonClicked");
+    }
+  },
 }
 </script>
 

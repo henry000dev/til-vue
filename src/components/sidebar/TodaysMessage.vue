@@ -3,7 +3,7 @@
     <div class="todays-message">
         No lesson for today yet...
     </div>
-    <div class="add-lesson-button">
+    <div class="add-lesson-button" v-on:click="addLessonClicked">
         Add Today's Lesson
     </div>
   </div>
@@ -13,7 +13,12 @@
 export default {
     name: 'TodaysMessage',
     components: {
-    }
+    },
+    methods: {
+        addLessonClicked: function() {
+            this.$emit("addLessonClicked");
+        }
+    },
 }
 </script>
 
