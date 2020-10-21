@@ -1,7 +1,13 @@
 <template>
   <div id="app">
     <SideBar v-bind:todaysDate="getTodaysDate" v-bind:todayHasLesson="todayHasLesson" v-on:add-lesson-clicked="onAddLessonClicked"></SideBar>
-    <LessonInputDialog v-if="lesson.isShowing" v-bind:isAddingLesson="lesson.isAddingLesson" v-bind:lessonDate="lesson.lessonDate" v-bind:lessonText="lesson.lessonText" v-on:lesson-input-dialog-dismissed="onLessonInputDialogDismissed"></LessonInputDialog>
+    <LessonInputDialog v-if="lessonDialog.isShowing" 
+      v-bind:isAddingLesson="lessonDialog.isAddingLesson" 
+      v-bind:lessonDate="lessonDialog.lessonDate" 
+      v-bind:lessonText="lessonDialog.lessonText" 
+      v-on:lesson-input-dialog-dismissed="onLessonInputDialogDismissed"
+      v-on:lesson-input-dialog-done="onLessonInputDialogDone"
+    ></LessonInputDialog>
     <MessageDialog v-if="messageDialog.isShowing" v-bind:title="messageDialog.title" v-bind:message="messageDialog.message" v-on:message-dialog-dismissed="onMessageDialogDismissed"></MessageDialog>
     <MainContent v-bind:lessons="storedLessons"></MainContent>
   </div>
@@ -54,7 +60,7 @@ export default {
         message: ""
       },
 
-      lesson: {
+      lessonDialog: {
         isShowing: false,
         isAddingLesson: true,
         lessonDate: "",
@@ -73,10 +79,10 @@ export default {
         return;
       }
 
-      this.lesson.isShowing = true;
-      this.lesson.isAddingLesson = true;
-      this.lesson.lessonDate = getDateString(this.getTodaysDate); // this.getTodaysDate() won't work!
-      this.lesson.lessonText = "";
+      this.lessonDialog.isShowing = true;
+      this.lessonDialog.isAddingLesson = true;
+      this.lessonDialog.lessonDate = getDateString(this.getTodaysDate); // this.getTodaysDate() won't work!
+      this.lessonDialog.lessonText = "";
     },
     onMessageDialogDismissed: function() {
         this.messageDialog.isShowing = false;
@@ -84,11 +90,20 @@ export default {
         this.messageDialog.message = "";
     },
     onLessonInputDialogDismissed: function() {
-        this.lesson.isShowing = false;
-        this.lesson.isAddingLesson = true;
-        this.lesson.title = "";
-        this.lesson.message = "";
-    }
+        this.dismissInputLessonDialog();
+    },
+    onLessonInputDialogDone: function(addedLesson) {
+      console.log("Lesson date:" + addedLesson.date);
+      console.log("Lesson text:" + addedLesson.text);
+
+      this.dismissInputLessonDialog();
+    },
+    dismissInputLessonDialog: function() {
+      this.lessonDialog.isShowing = false;
+      this.lessonDialog.isAddingLesson = true;
+      this.lessonDialog.title = "";
+      this.lessonDialog.message = "";
+    },
   },
 
   // computed returns more complex logic for binding. It is "cached" if 

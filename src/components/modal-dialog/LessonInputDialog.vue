@@ -11,17 +11,22 @@
                     <div class="content-text-area">
                         <form action="/">
                             <div>
-                                <textarea id="add-lesson-text-area" ref={textAreaRef} maxLength="500" v-on:change={onLessonTextChanged} placeholder="What did you learn?"></textarea>
+                                <textarea id="add-lesson-text-area" v-model="inputLessonText" maxLength="500" v-on:change={onLessonTextChanged} placeholder="What did you learn?"></textarea>
                             </div>
                         </form>
                     </div>
                 </div>
+                <div v-if="isAddingLesson" class="content-footer footer-centred">
+                    <div class="submit-button" v-on:click="onEditingLessonClicked" href="/">{{getMainButtonLabel}}</div>
+                </div>                
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import {createLesson} from './../../utils/utils';
+
 export default {
     name: "LessonInputDialog",
     props: {
@@ -32,11 +37,21 @@ export default {
     computed: {
         getTitle: function() {
             return this.isAddingLesson ? "Add Today's Lesson" : "Update Lesson";
+        },
+        getMainButtonLabel: function() {
+            return this.isAddingLesson ? "Add Lesson" : "Update Lesson";
         }
     },
+    data: function() {
+        return {
+            inputLessonText: "", // Initialises the text area v-model two-way binding variable.
+        };
+    },
     methods: {
-        onEditingLessonDone: function() {
-            console.log("onEditingLessonDone");
+        onEditingLessonClicked: function() {
+            // let addedLesson = createLesson(this.lessonDate, "My super lesson learned!");
+            let addedLesson = createLesson(this.lessonDate, this.inputLessonText);
+            this.$emit("lesson-input-dialog-done", addedLesson);
         },
         onDeletingLessonDone: function() {
             console.log("onDeletingLessonDone");
