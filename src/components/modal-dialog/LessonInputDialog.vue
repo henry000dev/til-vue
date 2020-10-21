@@ -42,7 +42,7 @@ export default {
             console.log("onDeletingLessonDone");
         },
         onEditingLessonCancelled: function() {
-            console.log("onEditingLessonCancelled");
+            this.$emit("lesson-input-dialog-dismissed");
         },
         onLessonTextChanged: function() {
             console.log("onLessonTextChanged");

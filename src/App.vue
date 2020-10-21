@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <SideBar v-bind:todaysDate="getTodaysDate" v-bind:todayHasLesson="todayHasLesson" v-on:add-lesson-clicked="onAddLessonClicked"></SideBar>
-    <LessonInputDialog v-if="lesson.isAddingLesson" v-bind:isAddingLesson="lesson.isAddingLesson" v-bind:lessonDate="lesson.lessonDate" v-bind:lessonText="lesson.lessonText"></LessonInputDialog>
+    <LessonInputDialog v-if="lesson.isShowing" v-bind:isAddingLesson="lesson.isAddingLesson" v-bind:lessonDate="lesson.lessonDate" v-bind:lessonText="lesson.lessonText" v-on:lesson-input-dialog-dismissed="onLessonInputDialogDismissed"></LessonInputDialog>
     <MessageDialog v-if="messageDialog.isShowing" v-bind:title="messageDialog.title" v-bind:message="messageDialog.message" v-on:message-dialog-dismissed="onMessageDialogDismissed"></MessageDialog>
     <MainContent v-bind:lessons="storedLessons"></MainContent>
   </div>
@@ -55,8 +55,9 @@ export default {
       },
 
       lesson: {
-        isAddingLesson: false,
-        lessonDate: "01-Oct-2020",
+        isShowing: false,
+        isAddingLesson: true,
+        lessonDate: "",
         lessonText: ""
       }
     };
@@ -72,12 +73,21 @@ export default {
         return;
       }
 
+      this.lesson.isShowing = true;
       this.lesson.isAddingLesson = true;
+      this.lesson.lessonDate = getDateString(this.getTodaysDate); // this.getTodaysDate() won't work!
+      this.lesson.lessonText = "";
     },
     onMessageDialogDismissed: function() {
         this.messageDialog.isShowing = false;
         this.messageDialog.title = "";
         this.messageDialog.message = "";
+    },
+    onLessonInputDialogDismissed: function() {
+        this.lesson.isShowing = false;
+        this.lesson.isAddingLesson = true;
+        this.lesson.title = "";
+        this.lesson.message = "";
     }
   },
 
