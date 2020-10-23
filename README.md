@@ -1,4 +1,11 @@
-# til-vue
+# Today I Learned
+
+This is a little sample project to learn [Vue](https://vuejs.org/).
+
+## About the App
+In this Vue app, you can add a something you've learned today.
+
+The app uses the browser local storage to store the lessons. Only up to 100 lessons is allowed (this is a sample app after all).
 
 ## Project setup
 ```
