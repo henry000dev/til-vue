@@ -96,6 +96,9 @@ export default {
       console.log("Lesson date:" + addedLesson.date);
       console.log("Lesson text:" + addedLesson.text);
 
+      this.storedLessons.unshift(addedLesson);
+      localStorage.setItem(LESSONS_STORAGE_KEY, JSON.stringify(this.storedLessons))
+
       this.dismissInputLessonDialog();
     },
     dismissInputLessonDialog: function() {
