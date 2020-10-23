@@ -93,11 +93,10 @@ export default {
         this.dismissInputLessonDialog();
     },
     onLessonInputDialogDone: function(addedLesson) {
-      console.log("Lesson date:" + addedLesson.date);
-      console.log("Lesson text:" + addedLesson.text);
-
+      // A new lesson is added, so update the UI, save to local storage and remove the add lesson button.
       this.storedLessons.unshift(addedLesson);
-      localStorage.setItem(LESSONS_STORAGE_KEY, JSON.stringify(this.storedLessons))
+      localStorage.setItem(LESSONS_STORAGE_KEY, JSON.stringify(this.storedLessons));
+      this.todayHasLesson = true;
 
       this.dismissInputLessonDialog();
     },
