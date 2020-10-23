@@ -11,7 +11,8 @@
       v-bind:lessonDate="lessonDialog.lessonDate" 
       v-bind:lessonText="lessonDialog.lessonText" 
       v-on:lesson-input-dialog-dismissed="onLessonInputDialogDismissed"
-      v-on:lesson-input-dialog-done="onLessonInputDialogDone">
+      v-on:lesson-input-dialog-done="onLessonInputDialogDone"
+      v-on:lesson-deleted-done="onLessonDeletedDone">
     </LessonInputDialog>
     <MessageDialog
       v-if="messageDialog.isShowing" 
@@ -98,9 +99,6 @@ export default {
       this.lessonDialog.lessonText = "";
     },
     onEditLessonClicked: function(lesson) {
-      console.log(lesson.date);
-      console.log(lesson.text);
-
       this.lessonDialog.isShowing = true;
       this.lessonDialog.isAddingLesson = false;
       this.lessonDialog.lessonDate = lesson.date;
@@ -114,11 +112,24 @@ export default {
     onLessonInputDialogDismissed: function() {
         this.dismissInputLessonDialog();
     },
-    onLessonInputDialogDone: function(addedLesson) {
+    onLessonInputDialogDone: function(editedLesson) {
       // A new lesson is added, so update the UI, save to local storage and remove the add lesson button.
-      this.storedLessons.unshift(addedLesson);
-      localStorage.setItem(LESSONS_STORAGE_KEY, JSON.stringify(this.storedLessons));
-      this.todayHasLesson = true;
+      if (this.messageDialog.isAddingLesson) {
+        this.storedLessons.unshift(editedLesson);
+        localStorage.setItem(LESSONS_STORAGE_KEY, JSON.stringify(this.storedLessons));
+        this.todayHasLesson = true;
+      } else {
+        const lessonIndex = this.storedLessons.findIndex((lesson) => lesson.date === editedLesson.date);
+        // const newLessons = [...this.storedLessons];
+        this.storedLessons[lessonIndex].text = editedLesson.text;
+        localStorage.setItem(LESSONS_STORAGE_KEY, JSON.stringify(this.storedLessons));
+      }
+
+      this.dismissInputLessonDialog();
+    },
+    onLessonDeletedDone: function(deletedLesson) {
+      const lessonIndex = this.storedLessons.findIndex((lesson) => lesson.date === deletedLesson.date);
+      this.storedLessons.splice(lessonIndex, 1);
 
       this.dismissInputLessonDialog();
     },

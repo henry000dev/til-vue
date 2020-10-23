@@ -18,7 +18,12 @@
                 </div>
                 <div v-if="isAddingLesson" class="content-footer footer-centred">
                     <div class="submit-button" v-on:click="onEditingLessonClicked" href="/">{{getMainButtonLabel}}</div>
-                </div>                
+                </div>
+                <div v-else class="content-footer footer-spread">
+                    <div class="ghost-button"></div>
+                    <div class="submit-button" v-on:click="onEditingLessonClicked" href="/">{{getMainButtonLabel}}</div>
+                    <div class="delete-button" v-on:click="onDeletingLessonClicked" href="/"><i class="far fa-trash-alt"></i></div>
+                </div>
             </div>
         </div>
     </div>
@@ -53,8 +58,9 @@ export default {
             let addedLesson = createLesson(this.lessonDate, this.inputLessonText);
             this.$emit("lesson-input-dialog-done", addedLesson);
         },
-        onDeletingLessonDone: function() {
-            console.log("onDeletingLessonDone");
+        onDeletingLessonClicked: function() {
+            const deletedLesson = createLesson(this.lessonDate, ""); // Lesson text won't matter when deleting.
+            this.$emit("lesson-deleted-done", deletedLesson);
         },
         onEditingLessonCancelled: function() {
             this.$emit("lesson-input-dialog-dismissed");
