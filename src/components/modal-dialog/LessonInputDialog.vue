@@ -44,7 +44,7 @@ export default {
     },
     data: function() {
         return {
-            inputLessonText: "", // Initialises the text area v-model two-way binding variable.
+            inputLessonText: this.lessonText, // Initialises the text area v-model two-way binding variable.
         };
     },
     methods: {

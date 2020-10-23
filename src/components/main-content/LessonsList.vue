@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Lesson v-for="lesson in lessons" v-bind:key="lesson.date" v-bind:lesson="lesson"></Lesson>
+    <Lesson v-for="lesson in lessons" v-bind:key="lesson.date" v-bind:lesson="lesson" v-on:edit-lesson-clicked="onEditLessonClicked"></Lesson>
   </div>
 </template>
 
@@ -14,6 +14,11 @@ export default {
     },
     props: {
       lessons: Array
+    },
+    methods: {
+      onEditLessonClicked: function(lesson) {
+        this.$emit("edit-lesson-clicked", lesson);
+      },
     }
 }
 </script>

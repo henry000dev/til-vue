@@ -1,15 +1,28 @@
 <template>
   <div id="app">
-    <SideBar v-bind:todaysDate="getTodaysDate" v-bind:todayHasLesson="todayHasLesson" v-on:add-lesson-clicked="onAddLessonClicked"></SideBar>
-    <LessonInputDialog v-if="lessonDialog.isShowing" 
+    <SideBar 
+      v-bind:todaysDate="getTodaysDate" 
+      v-bind:todayHasLesson="todayHasLesson" 
+      v-on:add-lesson-clicked="onAddLessonClicked">
+    </SideBar>
+    <LessonInputDialog 
+      v-if="lessonDialog.isShowing" 
       v-bind:isAddingLesson="lessonDialog.isAddingLesson" 
       v-bind:lessonDate="lessonDialog.lessonDate" 
       v-bind:lessonText="lessonDialog.lessonText" 
       v-on:lesson-input-dialog-dismissed="onLessonInputDialogDismissed"
-      v-on:lesson-input-dialog-done="onLessonInputDialogDone"
-    ></LessonInputDialog>
-    <MessageDialog v-if="messageDialog.isShowing" v-bind:title="messageDialog.title" v-bind:message="messageDialog.message" v-on:message-dialog-dismissed="onMessageDialogDismissed"></MessageDialog>
-    <MainContent v-bind:lessons="storedLessons"></MainContent>
+      v-on:lesson-input-dialog-done="onLessonInputDialogDone">
+    </LessonInputDialog>
+    <MessageDialog
+      v-if="messageDialog.isShowing" 
+      v-bind:title="messageDialog.title" 
+      v-bind:message="messageDialog.message" 
+      v-on:message-dialog-dismissed="onMessageDialogDismissed">
+    </MessageDialog>
+    <MainContent 
+      v-bind:lessons="storedLessons"
+      v-on:edit-lesson-clicked="onEditLessonClicked">
+    </MainContent>
   </div>
 </template>
 
@@ -83,6 +96,15 @@ export default {
       this.lessonDialog.isAddingLesson = true;
       this.lessonDialog.lessonDate = getDateString(this.getTodaysDate); // this.getTodaysDate() won't work!
       this.lessonDialog.lessonText = "";
+    },
+    onEditLessonClicked: function(lesson) {
+      console.log(lesson.date);
+      console.log(lesson.text);
+
+      this.lessonDialog.isShowing = true;
+      this.lessonDialog.isAddingLesson = false;
+      this.lessonDialog.lessonDate = lesson.date;
+      this.lessonDialog.lessonText = lesson.text;
     },
     onMessageDialogDismissed: function() {
         this.messageDialog.isShowing = false;

@@ -1,5 +1,5 @@
 <template>
-  <div class="lesson-container">
+  <div class="lesson-container" v-on:click="onEditLessonClicked">
       <div class="lesson-date">
           {{lesson.date}}
       </div>
@@ -16,6 +16,11 @@ export default {
     },
     props: {
         lesson: Object
+    },
+    methods: {
+        onEditLessonClicked: function() {
+            this.$emit("edit-lesson-clicked", this.lesson);
+        },
     }
 }
 </script>

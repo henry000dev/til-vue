@@ -2,7 +2,7 @@
   <div class="main-content">
     <Header></Header>
     <div class="lessons-container">
-      <LessonsList v-bind:lessons="lessons"></LessonsList>
+      <LessonsList v-bind:lessons="lessons" v-on:edit-lesson-clicked="onEditLessonClicked"></LessonsList>
     </div>
     <Footer></Footer>
   </div>
@@ -22,6 +22,11 @@ export default {
     },
     props: {
       lessons: Array
+    },
+    methods: {
+      onEditLessonClicked: function(lesson) {
+        this.$emit("edit-lesson-clicked", lesson);
+      },
     }
 }
 </script>
