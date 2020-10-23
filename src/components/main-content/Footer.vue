@@ -3,7 +3,7 @@
       <div>
           <a href="https://hkplay.space">&copy; hkplace.space</a>
       </div>
-      <div>May 2020</div>
+      <div>October 2020</div>
   </div>
 </template>
 
